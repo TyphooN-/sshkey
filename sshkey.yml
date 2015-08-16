@@ -1,0 +1,14 @@
+---
+- name: 'Add Public key to authorized_files'
+  user: root
+  hosts: addkey
+
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: 'Add Public key to requested user(s) authorized_keys file'
+      authorized_key: user="{{ item.0 }}" key="{{ item.1 }}"
+      with_together:
+        - "{{ user }}"
+        - "{{ key }}"
